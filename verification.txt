@@ -1,0 +1,29 @@
+Проверка проекта bevy-lab05-lighting
+Дата: 7 октября 2026. Среда: Ubuntu 24.04 x86_64.
+Версии: rustc 1.98.1, cargo 1.98.1, clippy 0.1.98, rustfmt 1.8.0, Bevy 0.19.1.
+
+cargo fmt --check                        -> OK
+cargo clippy --locked -- -D warnings     -> OK, 0 предупреждений
+cargo run --locked под Xvfb + twm        -> четыре тора с разными материалами, заголовок:
+   title_start=Lab05 [37 FPS]
+   title_rotated=Lab05 [34 FPS]
+   title_zoom=Lab05 [33 FPS]
+Клавиши Left (1 с), Up (0,3 с), = (0,4 с) поданы через X-сервер (xdotool); блики смещаются.
+
+Консоль:
+Загружен материал assets/materials/red_glossy.txt: PhongMaterial { diffuse: Vec4(1.0, 0.0, 0.0, 1.0), specular: Vec4(1.0, 1.0, 1.0, 1.0), emission: Vec4(0.0, 0.0, 0.0, 1.0), shininess: 64.0 }
+Загружен материал assets/materials/blue_matte.txt: PhongMaterial { diffuse: Vec4(0.0, 0.0, 1.0, 1.0), specular: Vec4(0.0, 0.0, 0.0, 1.0), emission: Vec4(0.0, 0.0, 0.0, 1.0), shininess: 0.0 }
+Загружен материал assets/materials/green_satin.txt: PhongMaterial { diffuse: Vec4(0.0, 0.8, 0.0, 1.0), specular: Vec4(0.5, 0.5, 0.5, 1.0), emission: Vec4(0.0, 0.0, 0.0, 1.0), shininess: 16.0 }
+Загружен материал assets/materials/white_emissive.txt: PhongMaterial { diffuse: Vec4(0.9, 0.9, 0.9, 1.0), specular: Vec4(0.5, 0.5, 0.5, 1.0), emission: Vec4(0.2, 0.2, 0.2, 1.0), shininess: 32.0 }
+Создан объект: позиция Vec3(4.0, 0.0, 0.0), угол 180°
+Создан объект: позиция Vec3(-4.0, 0.0, 0.0), угол 0°
+Создан объект: позиция Vec3(0.0, 0.0, -4.0), угол 90°
+Создан объект: позиция Vec3(0.0, 0.0, 4.0), угол 270°
+[setup_scene] Сцена создана: 4 объекта, источник света в Vec3(8.0, 10.0, 6.0).
+[setup_scene] Начальная позиция камеры: Vec3(10.000002, 15.0, 17.5)
+
+Правка файлов на копии assets: синий -> жёлтый, в зелёном ошибка:
+Загружен материал assets/materials/blue_matte.txt: PhongMaterial { diffuse: Vec4(1.0, 1.0, 0.0, 1.0), specular: Vec4(0.0, 0.0, 0.0, 1.0), emission: Vec4(0.0, 0.0, 0.0, 1.0), shininess: 0.0 }
+Ошибка загрузки материала: assets/materials/green_satin.txt:1: неверная строка «diffuse 0.0 0.8»
+Загружен материал assets/materials/green_satin.txt: PhongMaterial { diffuse: Vec4(0.8, 0.8, 0.8, 1.0), specular: Vec4(0.0, 0.0, 0.0, 1.0), emission: Vec4(0.0, 0.0, 0.0, 1.0), shininess: 0.0 }
+Результат: жёлтый тор без перекомпиляции, зелёный получил материал по умолчанию (screenshots/lab05_file_edit.png).
